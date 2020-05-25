@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 
 # intialize the pygame
 pygame.init()
@@ -22,8 +23,8 @@ playerX_change = 0
 
 # Enemy
 enemyimg = pygame.image.load('e1.png')
-enemyX = random.randint(0, 800)
-enemyY = random.randint(50, 150)
+enemyX = random.randint(0, 735)
+enemyY = random.randint(1, 2)
 enemyX_change = 1
 enemyY_change = 40
 
@@ -37,6 +38,7 @@ bulletX_change = 0
 bulletY_change = 5
 bullet_state = "ready"
 
+score = 0
 
 def player(X, Y):
     screen.blit(playerimg, (X, Y))  # Here this stape is youed to draw charector and passing two parameter
@@ -52,7 +54,15 @@ def fire_Bullet(x, y):
     screen.blit(bulletimg, (x + 16, y + 10))
 
 
-#  Game   Loop
+def isCollision(enemyX, enemyY, bulletX, bulletY):
+    distance = math.sqrt((math.pow(enemyX - bulletX, 2)) + (math.pow(enemyY - bulletY, 2)))
+    if distance < 27:
+        return True
+    else:
+        return False
+
+
+# --------------- Game   Loop-----------------------------------
 running = True
 while running:
     # RGB - red green blue
@@ -100,10 +110,20 @@ while running:
     # bullet movement
     if bulletY <= 0:
         bulletY = 480
-        bullet_state = "ready"    #bullet is shoot loop
+        bullet_state = "ready"  # bullet is shoot loop
     if bullet_state is "fire":
         fire_Bullet(bulletX, bulletY)
         bulletY -= bulletY_change
+
+      # collition
+    collision = isCollision(enemyX,enemyY,bulletX,bulletY)
+    if collision:
+        bulletY = 480
+        bullet_state = "ready"
+        score += 1
+        print(score)
+        enemyX = random.randint(0, 735)
+        enemyY = random.randint(1, 2)
 
     player(playerX, playerY)
     enemy(enemyX, enemyY)
