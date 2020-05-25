@@ -4,7 +4,10 @@ import random
 # intialize the pygame
 pygame.init()
 
-# creat thae scren
+#baground pic
+Background = pygame.image.load("b1.png")
+
+# creat the scren
 screen = pygame.display.set_mode((800, 600))  # width height
 # Titles and icon
 pygame.display.set_caption("Space Invaders")
@@ -21,7 +24,7 @@ playerX_change = 0
 enemyimg = pygame.image.load('e1.png')
 enemyX = random.randint(0, 800)
 enemyY = random.randint(50, 150)
-enemyX_change = 0.3
+enemyX_change = 1
 enemyY_change = 40
 
 
@@ -38,6 +41,9 @@ running = True
 while running:
     # RGB - red green blue
     screen.fill((0, 0, 0))  # this code is used to screen colour
+    #Background image
+    screen.blit(Background,(0,0 ))
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -47,9 +53,9 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                playerX_change = -0.3
+                playerX_change = -2
             if event.key == pygame.K_RIGHT:
-                playerX_change = 0.3
+                playerX_change = 2
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 playerX_change = 0
@@ -68,10 +74,10 @@ while running:
     enemyX += enemyX_change
 
     if enemyX <= 0:
-        enemyX_change = 0.3
+        enemyX_change = 1
         enemyY += enemyY_change
     elif enemyX >= 736:
-        enemyX_change = -0.3
+        enemyX_change = -1
         enemyY += enemyY_change
 
     player(playerX, playerY)
