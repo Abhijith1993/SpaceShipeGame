@@ -4,7 +4,7 @@ import random
 # intialize the pygame
 pygame.init()
 
-#baground pic
+# baground pic
 Background = pygame.image.load("b1.png")
 
 # creat the scren
@@ -27,6 +27,16 @@ enemyY = random.randint(50, 150)
 enemyX_change = 1
 enemyY_change = 40
 
+# fire
+# Ready - tou can't see the bullet
+# fire - the bullet is move
+bulletimg = pygame.image.load('bul.png')
+bulletX = 0
+bulletY = 480
+bulletX_change = 0
+bulletY_change = 10
+bullet_state = 'read'
+
 
 def player(X, Y):
     screen.blit(playerimg, (X, Y))  # Here this stape is youed to draw charector and passing two parameter
@@ -36,14 +46,19 @@ def enemy(X, Y):
     screen.blit(enemyimg, (X, Y))  # Here this stape is youed to draw charector and passing two parameter
 
 
+def fire_Bullet(x, y):
+    global bullet_state
+    bullet_state = 'fire'
+    screen.blit(bulletimg, (x + 16, y + 10))
+
+
 #  Game   Loop
 running = True
 while running:
     # RGB - red green blue
     screen.fill((0, 0, 0))  # this code is used to screen colour
-    #Background image
-    screen.blit(Background,(0,0 ))
-
+    # Background image
+    screen.blit(Background, (0, 0))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -56,12 +71,13 @@ while running:
                 playerX_change = -2
             if event.key == pygame.K_RIGHT:
                 playerX_change = 2
+            if event.key == pygame.K_SPACE:
+                fire_Bullet(playerX, bulletY)
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 playerX_change = 0
 
-
-  # space ship movement
+    # space ship movement
     playerX += playerX_change
 
     if playerX <= 0:
@@ -69,8 +85,7 @@ while running:
     elif playerX >= 736:
         playerX = 736
 
-
-  # enemy movement
+    # enemy movement
     enemyX += enemyX_change
 
     if enemyX <= 0:
@@ -79,6 +94,13 @@ while running:
     elif enemyX >= 736:
         enemyX_change = -1
         enemyY += enemyY_change
+
+    #bullet movement
+    if bullet_state is "fire":
+        fire_Bullet(playerX, bulletY)
+        bulletY -= bulletY_change
+
+
 
     player(playerX, playerY)
     enemy(enemyX, enemyY)
