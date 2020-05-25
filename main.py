@@ -32,12 +32,12 @@ enemyX = []
 enemyY = []
 enemyX_change = []
 enemyY_change = []
-num_of_enemies = 6
+num_of_enemies = 10
 for i in range(num_of_enemies):
     enemyimg.append(pygame.image.load('e1.png'))
     enemyX.append(random.randint(0, 735))
     enemyY.append(random.randint(1, 2))
-    enemyX_change.append(1)
+    enemyX_change.append(2)
     enemyY_change.append(40)
 
 # fire
@@ -57,6 +57,12 @@ font = pygame.font.Font('freesansbold.ttf', 32)
 testX = 10
 testY = 10
 
+# Game Over
+over_font = pygame.font.Font('freesansbold.ttf', 64)
+
+def game_over_text():
+    over_text = over_font.render("GAME OVER", True, (255, 0, 0))
+    screen.blit(over_text,(200, 250))
 
 def show_score(X, Y):
     score = font.render("Score : " + str(score_value), True, (255, 255, 255))
@@ -101,9 +107,9 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                playerX_change = -2
+                playerX_change = -3
             if event.key == pygame.K_RIGHT:
-                playerX_change = 2
+                playerX_change = 3
             if event.key == pygame.K_SPACE:
                 if bullet_state is "ready":
                     bullet_sound = mixer.Sound('sh.wav')
@@ -124,13 +130,21 @@ while running:
 
     # enemy movement
     for i in range(num_of_enemies):
+
+        # Gamer Over
+        if  enemyY[i] > 440:
+            for j in range(num_of_enemies):
+                enemyY[j] = 2000
+            game_over_text()
+            break
+
         enemyX[i] += enemyX_change[i]
 
         if enemyX[i] <= 0:
-            enemyX_change[i] = 1
+            enemyX_change[i] = 2
             enemyY[i] += enemyY_change[i]
         elif enemyX[i] >= 736:
-            enemyX_change[i] = -1
+            enemyX_change[i] = -2
             enemyY[i] += enemyY_change[i]
 
             # collition
