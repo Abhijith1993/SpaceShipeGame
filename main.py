@@ -31,6 +31,7 @@ while running:
 
 
      # Keybord control
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 playerX_change = -0.3
@@ -41,5 +42,11 @@ while running:
                 playerX_change = 0
 
     playerX += playerX_change
+
+    if playerX <= 0:
+        playerX = 0
+    elif playerX >= 736:
+        playerX = 736
+
     player(playerX, playerY)
     pygame.display.update()  #this code is used to update screen
