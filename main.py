@@ -45,14 +45,24 @@ bulletX_change = 0
 bulletY_change = 5
 bullet_state = "ready"
 
-score = 0
+# score
+score_value = 0
+font = pygame.font.Font('freesansbold.ttf', 32)
+
+testX = 10
+testY = 10
+
+
+def show_score(X, Y):
+    score = font.render("Score : " + str(score_value), True, (255, 255, 255))
+    screen.blit(score, (X, Y))
 
 
 def player(X, Y):
     screen.blit(playerimg, (X, Y))  # Here this stape is youed to draw charector and passing two parameter
 
 
-def enemy(X, Y,i):
+def enemy(X, Y, i):
     screen.blit(enemyimg[i], (X, Y))  # Here this stape is youed to draw charector and passing two parameter
 
 
@@ -121,8 +131,8 @@ while running:
         if collision:
             bulletY = 480
             bullet_state = "ready"
-            score += 1
-            print(score)
+            score_value += 1
+
             enemyX[i] = random.randint(0, 735)
             enemyY[i] = random.randint(1, 2)
         enemy(enemyX[i], enemyY[i], i)
@@ -135,8 +145,6 @@ while running:
         fire_Bullet(bulletX, bulletY)
         bulletY -= bulletY_change
 
-
-
     player(playerX, playerY)
-
+    show_score(testX, testY)
     pygame.display.update()  # this code is used to update screen
