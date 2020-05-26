@@ -59,10 +59,15 @@ testY = 10
 
 # Game Over
 over_font = pygame.font.Font('freesansbold.ttf', 64)
+re_font = pygame.font.Font('freesansbold.ttf', 34)
+
+
 
 def game_over_text():
-    over_text = over_font.render("GAME OVER", True, (255, 0, 0))
+    over_text = over_font.render("GAME OVER ", True, (255, 0, 0))
+    re_text = re_font.render("Press Esc For New Game", True, (255, 0, 0))
     screen.blit(over_text,(200, 250))
+    screen.blit(re_text, (200, 320))
 
 def show_score(X, Y):
     score = font.render("Score : " + str(score_value), True, (255, 255, 255))
@@ -110,6 +115,14 @@ while running:
                 playerX_change = -3
             if event.key == pygame.K_RIGHT:
                 playerX_change = 3
+            if event.key == pygame.K_ESCAPE:
+                score_value = 0
+                for i in range(num_of_enemies):
+                    enemyX[i] = random.randint(0, 735)
+                    enemyY[i] = random.randint(1, 2)
+
+
+
             if event.key == pygame.K_SPACE:
                 if bullet_state is "ready":
                     bullet_sound = mixer.Sound('sh.wav')
