@@ -16,7 +16,7 @@ mixer.music.play(-1)
 # creat the scren
 screen = pygame.display.set_mode((800, 600))  # width height
 # Titles and icon
-pygame.display.set_caption("Space Invaders")
+pygame.display.set_caption("Space Ship    By Abhijith")
 icon = pygame.image.load('rocket.png')
 pygame.display.set_icon(icon)
 
